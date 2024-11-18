@@ -6,7 +6,6 @@ namespace ConsoleInterface.Services;
 public class RentalService(double pricePerHour, double priceByDay,ITaxService iTaxService) {
     private double PricePerHour { get; set; } = pricePerHour;
     private double PriceByDay { get; set; } = priceByDay;
-    private readonly ITaxService _taxService;
 
     public void ProcessInvoice(CarRental carRental)
     {
@@ -17,7 +16,7 @@ public class RentalService(double pricePerHour, double priceByDay,ITaxService iT
         else
             basicPayment = PriceByDay * Math.Ceiling(duration.TotalDays);
 
-        var tax = _taxService.Tax(basicPayment);
+        var tax = iTaxService.Tax(basicPayment);
         carRental.Invoice  = new Invoice(basicPayment, tax);
     }
 }
